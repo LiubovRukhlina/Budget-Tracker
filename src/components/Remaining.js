@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 
 const Remaining = () => {
-  return (
-    <div className="alert alert-success">
-      <span>Remaining: €1000</span>
-    </div>
-  );
+    const { totalExpenses, budget } = useContext(AppContext);
+
+    const alertType = totalExpenses > budget ? 'alert-danger' : 'alert-success';
+
+    return (
+        <div className={`alert ${alertType}`}>
+            <span>Remaining: €{budget - totalExpenses}</span>
+        </div>
+    );
 };
 
 export default Remaining;

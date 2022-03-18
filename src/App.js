@@ -1,26 +1,30 @@
-import React from "react";
+import React, {useContext} from "react";
 
-import { AppProvider } from "./context/AppContext";
+import {AppContext, AppProvider} from "./context/AppContext";
 
 import Budget from "./components/Budget";
 import Remaining from "./components/Remaining";
 import ExpenseTotal from "./components/ExpenseTotal";
 import ExpenseList from "./components/ExpenseList";
 import AddExpenseForm from "./components/AddExpenseForm";
+import EditBudgetForm from "./components/EditBudgetForm";
 import Nav from "./components/Nav";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import Footer from "./components/Footer";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const BudgetChart = () => {
-  // Sample data
+  const { totalExpenses, budget } = useContext(AppContext);
+  const remaining = budget - totalExpenses
+
   const data = {
-    labels: ["Remaining", "Spent"],
+    labels: ["Remaining", "Expenses"],
     datasets: [
       {
-        data: [1000, 1000],
+        data: [remaining, totalExpenses],
         backgroundColor: ["green", "black"],
       },
     ],
@@ -41,21 +45,10 @@ const App = () => {
     <AppProvider>
       <Nav />
       <div className="container">
+        <h3 className="mt-3">Set Monthly Budget</h3>
         <div className="row mt-3">
           <div className="col-sm">
-            <Budget />
-            <Remaining />
-            <ExpenseTotal />
-          </div>
-          <div className="col-sm"></div>
-          <div className="col-sm">
-            <BudgetChart />
-          </div>
-        </div>
-        <h3 className="mt-3">Expenses</h3>
-        <div className="row mt-3">
-          <div className="col-sm">
-            <ExpenseList />
+            <EditBudgetForm />
           </div>
         </div>
         <h3 className="mt-3">Add Expense</h3>
@@ -64,7 +57,27 @@ const App = () => {
             <AddExpenseForm />
           </div>
         </div>
-      </div>
+        <hr/>
+        <div className="row mt-3 py-2" style={{backgroundColor: 'lightgray'}}>
+          <div className="col-sm">
+            <Budget />
+            <Remaining />
+            <ExpenseTotal />
+          </div>
+          <div className="col-sm"></div> {/*empty column*/}
+          <div className="col-sm">
+            <BudgetChart />
+          </div>
+        </div>
+        <hr/>
+        <h3 className="mt-3">My past expenses</h3>
+        <div className="row mt-3">
+          <div className="col-sm">
+            <ExpenseList />
+          </div>
+        </div>
+        </div>
+      <Footer/>
     </AppProvider>
   );
 };
