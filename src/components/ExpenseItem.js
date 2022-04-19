@@ -1,30 +1,38 @@
-import React, { useContext } from 'react';
-import { TiDelete, TiCoffee } from 'react-icons/ti';
-import { AppContext } from '../context/AppContext';
+import React, { useContext } from "react";
+import { TiDelete, TiCoffee } from "react-icons/ti";
+import { AppContext } from "../context/AppContext";
+import { api } from "../services/api";
 
-const ExpenseItem = (props) => {
-    const { dispatch } = useContext(AppContext);
+const ExpenseItem = ({ id, name, cost }) => {
+  const { dispatch } = useContext(AppContext);
 
-    const handleDeleteExpense = () => {
-        dispatch({
-            type: 'DELETE_EXPENSE',
-            payload: props.id,
-        });
-    };
+  const handleDeleteExpense = async () => {
+    // api call
+    const response = await api.delete(`/expenses/${id}`);
+    const success = response.status === 200;
 
-    return (
-        <li className='list-group-item d-flex justify-content-between align-items-center'>
-            <TiCoffee size='1.5em'></TiCoffee>
-            {props.name}
-            <div>
+    if (success) {
+      dispatch({
+        type: "DELETE_EXPENSE",
+        payload: id,
+      });
+    }
+  };
 
-                <span className=' mr-3'>
-					€{props.cost}
-				</span>
-                <TiDelete size='1.5em' onClick={handleDeleteExpense} style={{cursor: "pointer"}}></TiDelete>
-            </div>
-        </li>
-    );
+  return (
+    <li className="list-group-item d-flex justify-content-between align-items-center">
+      <TiCoffee size="1.5em"></TiCoffee>
+      {name}
+      <div>
+        <span className=" mr-3">€{cost}</span>
+        <TiDelete
+          size="1.5em"
+          onClick={handleDeleteExpense}
+          style={{ cursor: "pointer" }}
+        ></TiDelete>
+      </div>
+    </li>
+  );
 };
 
 export default ExpenseItem;
