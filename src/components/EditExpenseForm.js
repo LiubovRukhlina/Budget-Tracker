@@ -2,44 +2,54 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { api } from "../services/api";
 
-const AddExpenseForm = () => {
+const EditExpenseForm = ({
+  id,
+  name: initName,
+  cost: initCost,
+  category: initCategory,
+  onSuccess,
+}) => {
   const { dispatch } = useContext(AppContext);
 
-  const [name, setName] = useState("");
-  const [cost, setCost] = useState("");
-  const [category, setCategory] = useState("");
+  const [name, setName] = useState(initName);
+  const [cost, setCost] = useState(initCost);
+  const [category, setCategory] = useState(initCategory);
 
   const onSubmit = async (event) => {
     event.preventDefault();
     // api call
-    const response = await api.post("/expenses/new", {
+    const response = await api.put(`/expenses/edit/${id}`, {
       name: name,
       cost: parseInt(cost),
       category: category,
     });
-    const _id = response.data?.insertedId;
 
-    if (_id) {
+    if (response.status === 200) {
       const expense = {
-        _id,
+        _id: id,
         name: name,
         cost: parseInt(cost),
         category: category,
       };
 
       dispatch({
-        type: "ADD_EXPENSE",
+        type: "UPDATE_EXPENSE",
         payload: expense,
       });
     }
 
-    setName("");
-    setCost("");
-    setCategory("");
+    onSuccess();
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      style={{
+        backgroundColor: "lightgray",
+        margin: 10,
+        padding: 10,
+      }}
+    >
       <div className="row">
         <div className="col-sm">
           <label htmlFor="name">Name</label>
@@ -84,4 +94,4 @@ const AddExpenseForm = () => {
   );
 };
 
-export default AddExpenseForm;
+export default EditExpenseForm;

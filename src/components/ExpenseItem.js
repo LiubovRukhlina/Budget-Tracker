@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
-import { TiDelete, TiCoffee } from "react-icons/ti";
+import React, { useContext, useState } from "react";
+import { TiDelete, TiCoffee, TiEdit } from "react-icons/ti";
 import { AppContext } from "../context/AppContext";
 import { api } from "../services/api";
+import EditExpenseForm from "./EditExpenseForm";
 
-const ExpenseItem = ({ id, name, cost }) => {
+const ExpenseItem = ({ id, name, cost, category }) => {
   const { dispatch } = useContext(AppContext);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const handleDeleteExpense = async () => {
     // api call
@@ -18,20 +20,40 @@ const ExpenseItem = ({ id, name, cost }) => {
       });
     }
   };
-
+  const handleToggleEditForm = () => {
+    setShowEditForm(!showEditForm);
+  };
   return (
-    <li className="list-group-item d-flex justify-content-between align-items-center">
-      <TiCoffee size="1.5em"></TiCoffee>
-      {name}
-      <div>
-        <span className=" mr-3">€{cost}</span>
-        <TiDelete
-          size="1.5em"
-          onClick={handleDeleteExpense}
-          style={{ cursor: "pointer" }}
-        ></TiDelete>
-      </div>
-    </li>
+    <>
+      <li className="list-group-item d-flex justify-content-between align-items-center">
+        <TiCoffee size="1.5em"></TiCoffee>
+        {name}
+        <span className=" mr-3">{category}</span>
+        <div>
+          <span className=" mr-3">€{cost}</span>
+
+          <TiDelete
+            size="1.5em"
+            onClick={handleDeleteExpense}
+            style={{ cursor: "pointer" }}
+          ></TiDelete>
+          <TiEdit
+            size="1.5em"
+            onClick={handleToggleEditForm}
+            style={{ cursor: "pointer" }}
+          ></TiEdit>
+        </div>
+      </li>
+      {showEditForm && (
+        <EditExpenseForm
+          id={id}
+          name={name}
+          cost={cost}
+          category={category}
+          onSuccess={handleToggleEditForm}
+        />
+      )}
+    </>
   );
 };
 
