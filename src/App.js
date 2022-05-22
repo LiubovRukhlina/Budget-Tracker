@@ -1,85 +1,38 @@
-import React, {useContext} from "react";
-
-import {AppContext, AppProvider} from "./context/AppContext";
-
-import Budget from "./components/Budget";
-import Remaining from "./components/Remaining";
-import ExpenseTotal from "./components/ExpenseTotal";
-import ExpenseList from "./components/ExpenseList";
-import AddExpenseForm from "./components/AddExpenseForm";
-import EditBudgetForm from "./components/EditBudgetForm";
+import React from "react";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
+import MainApp from "./pages/MainApp";
+import RequireAuth from "./components/RequireAuth";
+import { AuthProvider } from "./context/AuthContext";
 import Nav from "./components/Nav";
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
-import Footer from "./components/Footer";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const BudgetChart = () => {
-  const { totalExpenses, budget } = useContext(AppContext);
-  const remaining = budget - totalExpenses
-
-  const data = {
-    labels: ["Remaining", "Expenses"],
-    datasets: [
-      {
-        data: [remaining, totalExpenses],
-        backgroundColor: ["green", "black"],
-      },
-    ],
-  };
-
+function App() {
   return (
-    <Pie
-      data={data}
-      width={100}
-      height={50}
-      options={{ maintainAspectRatio: false }}
-    />
-  );
-};
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Nav />
 
-const App = () => {
-  return (
-    <AppProvider>
-      <Nav />
-      <div className="container">
-        <h3 className="mt-3">Set Monthly Budget</h3>
-        <div className="row mt-3">
-          <div className="col-sm">
-            <EditBudgetForm />
-          </div>
-        </div>
-        <h3 className="mt-3">Add Expense</h3>
-        <div className="row mt-3">
-          <div className="col-sm">
-            <AddExpenseForm />
-          </div>
-        </div>
-        <hr/>
-        <div className="row mt-3 py-2" style={{backgroundColor: 'lightgray'}}>
-          <div className="col-sm">
-            <Budget />
-            <Remaining />
-            <ExpenseTotal />
-          </div>
-          <div className="col-sm"></div> {/*empty column*/}
-          <div className="col-sm">
-            <BudgetChart />
-          </div>
-        </div>
-        <hr/>
-        <h3 className="mt-3">My past expenses</h3>
-        <div className="row mt-3">
-          <div className="col-sm">
-            <ExpenseList />
-          </div>
-        </div>
-        </div>
-      <Footer/>
-    </AppProvider>
-  );
-};
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <RequireAuth>
+                  <MainApp />
+                </RequireAuth>
+              }
+            />
 
+            <Route path="/sign-in" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+}
 export default App;

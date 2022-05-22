@@ -8,15 +8,22 @@ const calculateTotal = (list) => {
 };
 
 const AppReducer = (state, action) => {
+  console.log({ state, action });
   switch (action.type) {
     case "SET_STATE": {
       return {
         ...action.payload,
       };
     }
+    case "UPDATE_STATE": {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
     case "SET_BUDGET": {
       const newBudget = +action.payload || 0;
-
+      console.log({ newBudget });
       return {
         ...state,
         budget: newBudget,
@@ -32,9 +39,25 @@ const AppReducer = (state, action) => {
         totalExpenses: newTotalExpenses,
       };
     }
+    case "UPDATE_EXPENSE": {
+      console.log(action);
+      const newExpenses = state.expenses.map((expense) => {
+        if (expense._id === action.payload._id) {
+          return action.payload;
+        }
+        return expense;
+      });
+      const newTotalExpenses = calculateTotal(newExpenses);
+
+      return {
+        ...state,
+        expenses: newExpenses,
+        totalExpenses: newTotalExpenses,
+      };
+    }
     case "DELETE_EXPENSE": {
       const newExpenses = state.expenses.filter(
-        (expense) => expense.id !== action.payload
+        (expense) => expense._id !== action.payload
       );
       const newTotalExpenses = calculateTotal(newExpenses);
 
@@ -60,7 +83,6 @@ export const initializer = async (initialValue = initialState) => {
   const fetchedExpenses = response.data;
 
   return {
-    budget: 0,
     expenses: fetchedExpenses,
     totalExpenses: calculateTotal(fetchedExpenses),
   };
@@ -73,10 +95,10 @@ export const AppProvider = (props) => {
 
   useEffect(() => {
     const fetchState = async () => {
-      const fetchedState = await initializer();
+      const fetchedState = await initializer(state);
 
       dispatch({
-        type: "SET_STATE",
+        type: "UPDATE_STATE",
         payload: fetchedState,
       });
     };
