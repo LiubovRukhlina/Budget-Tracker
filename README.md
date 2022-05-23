@@ -1,9 +1,12 @@
-# Development of React based budget tracking web application
+
+# Greedy Gorilla - Budget Tracker
 
 ## Topic introduction:
-This project will focus on creating a web application that will allow users to record their personal expenses and track how much money they spend. Moreover, the user will be able to have a better understanding on which categories they spend the most money (expenses are categorized), and which share of their budget is left to be spent for the current month.
-## Planned technologies, architectures, main libraries:
-The following technologies are planned to be researched and implemented during the project course:
+The Greedy Gorilla is a full-stack React Web Application with MongoDB that helps users track their expenses and set budgets. This allows them to stay on track and save money.
+
+The app was created as a way to help people save money in the face of rising consumer world inflation. The features of the app are: tracking expenses for multiple users, categorizing expenses, and setting budgets for each user. Fastify framework was chosen to develop the backend for expense management and authentication as together with protected routes it provided high security and fast operability for such sensitive data as money spending. The app also allows an easy way to add new users and manage permissions. This project focuses on creating a web application that will allow users to record their expenses and track how much money they spend. Moreover, the user will be able to have a better understanding of which categories they spend the most money on (visually presented on a pie chart) and which share of their budget is left to be spent for the current month.
+## Used technologies, architectures, main libraries:
+The following technologies were researched and implemented during the project course:
 
 Frontend:
 * JavaScript
@@ -12,33 +15,35 @@ Backend:
 * NodeJS
 * MongoDB
 
-A budget-tracking application called ÒGreedy GorillaÓ is a React single-page web application that communicates with the NodeJS microservice which uses MongoDB to store data. 
-The following design patterns will be used as best-practices in building React application: stateless and controlled components, react hooks1.
-The following libraries are intended to be used:
+A budget-tracking application called Greedy Gorilla is a React web application that communicates with the NodeJS microservice which uses MongoDB to store data. The main functionality of the app is concentrated on one page following the current design best practices, only sign-in and sign-up are located on separate pages.
+
+The following design patterns are used as best practices in building React application: stateless and controlled components and react hooks.
+Libraries used in the project include:
 
 Frontend:
 * React
 * Bootstrap
 Backend:
-* Express
-## Planned features and use-cases:
+* Fastify
+* JWT
+## Features and use-cases:
 Frontend: 
-* Add, edit, remove expense,
-* Sort by categories
-* Calculating the percentage of spent and remaining budget. 
-* Display on a graph spending by categories and by months.
+* View, add, edit, remove expense,
+* Sort expenses by categories
+* Calculating the percentage of the spent and remaining budget. 
+* Display on a graph spending by categories.
+
 Backend: 
 * registration, sign in
-* CRUD (Create, Read, Update, Delete)Êuser data 
+* CRUD (Create, Read, Update, Delete) user data 
+
 ## Expected results and experience:
-By the end of the semester the technologies listed above should be learnt from zero to the level that will allow to create a functioning application. The finished product should be easy to understand and ready to use. An example user can be created to demonstrate the work of the application. Moreover, a documentation and presentation should be created to illustrate the use of the application.
+The technologies listed above were learned from zero to the level that allowed to create a functioning application. The finished product is intended to be intuitive to use. An example user can be created to demonstrate the work of the application. 
 
-
-
+To run the project both frontend and backend parts have to be started:
+### `npm install`
 ### `npm start`
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
 
 
