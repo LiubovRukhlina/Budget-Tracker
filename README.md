@@ -40,6 +40,20 @@ Backend:
 ## Expected results and experience:
 The technologies listed above were learned from zero to the level that allowed to create a functioning application. The finished product is intended to be intuitive to use. An example user can be created to demonstrate the work of the application. 
 
+
+## Screenshots
+General view of spendings to date + setting the budget and adding expenses:
+![App Screenshot](https://user-images.githubusercontent.com/36957053/169812106-8cee0d6f-51b9-40dc-aea3-04b592e0353c.png)
+
+Detailed expense view + statistics by category:
+![App Screenshot](https://user-images.githubusercontent.com/36957053/169812153-19617000-f2c7-4a0c-89ca-a7a24aa7ec24.png)
+
+Sign-in:
+![App Screenshot](https://user-images.githubusercontent.com/36957053/169812251-af7eb29f-7ea6-4004-b020-ea818ab19473.png)
+
+Sign-up:
+![App Screenshot](https://user-images.githubusercontent.com/36957053/169812287-fb78c9f4-94ce-4b05-94d3-fd9cf6efddff.png)
+
 To run the project both frontend and backend parts have to be started:
 ### `npm install`
 ### `npm start`
