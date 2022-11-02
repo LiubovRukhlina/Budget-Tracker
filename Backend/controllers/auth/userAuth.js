@@ -8,7 +8,7 @@ export function verifyToken(req, reply, done) {
       done(new Error("Unauthorized"));
     }
 
-    const userID = new ObjectId(decoded.id);
+    const userID = new ObjectId(decoded?.id);
     const users = this.mongo.db.collection("Users");
 
     const checkedUser = await users.findOne({ _id: userID });
